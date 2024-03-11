@@ -1,0 +1,228 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://games/Jerimiah/scripts/ParkingSpace.gd" type="Script" id=1]
+[ext_resource path="res://games/Jerimiah/assets/car3.png" type="Texture" id=2]
+[ext_resource path="res://games/Jerimiah/scenes/Highlight.tscn" type="PackedScene" id=3]
+[ext_resource path="res://games/Jerimiah/assets/Ticket.png" type="Texture" id=4]
+[ext_resource path="res://games/Jerimiah/assets/car1.png" type="Texture" id=5]
+[ext_resource path="res://games/Jerimiah/assets/car4.png" type="Texture" id=6]
+[ext_resource path="res://games/Jerimiah/assets/car2.png" type="Texture" id=7]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 58.5, 31.5 )
+
+[sub_resource type="Animation" id=41]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Success:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Success:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Failure:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=43]
+resource_name = "fail"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Failure:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=42]
+resource_name = "success"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Success:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Success:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="DynamicFontData" id=39]
+font_path = "res://mainmenu/art/font/kenpixel/mini.ttf"
+
+[sub_resource type="DynamicFont" id=40]
+font_data = SubResource( 39 )
+
+[node name="ParkingSpace" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="ParkingSpaceArea" type="Area2D" parent="."]
+position = Vector2( 0, -21 )
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ParkingSpaceArea"]
+position = Vector2( 3.5, 0 )
+shape = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ParkingSpaceArea"]
+anims/RESET = SubResource( 41 )
+anims/fail = SubResource( 43 )
+anims/success = SubResource( 42 )
+
+[node name="Success" type="RichTextLabel" parent="ParkingSpaceArea"]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+margin_left = -38.0
+margin_top = -35.0
+margin_right = 59.0
+margin_bottom = 28.0
+custom_colors/default_color = Color( 0.513726, 0.878431, 0.298039, 1 )
+custom_fonts/normal_font = SubResource( 40 )
+bbcode_enabled = true
+bbcode_text = "[wave amp=50 freq=5.0]+revenue[/wave]"
+text = "+revenue"
+
+[node name="Failure" type="RichTextLabel" parent="ParkingSpaceArea"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = -38.0
+margin_top = -35.0
+margin_right = 59.0
+margin_bottom = 28.0
+custom_colors/default_color = Color( 0.882353, 0.254902, 0.254902, 1 )
+custom_fonts/normal_font = SubResource( 40 )
+bbcode_enabled = true
+bbcode_text = "[wave amp=50 freq=5.0]-revenue[/wave]"
+text = "-revenue"
+
+[node name="Car" type="Node2D" parent="."]
+visible = false
+
+[node name="Car1" type="Sprite" parent="Car"]
+visible = false
+position = Vector2( -5, -8 )
+texture = ExtResource( 5 )
+
+[node name="Windshield" parent="Car/Car1" instance=ExtResource( 3 )]
+position = Vector2( 15, -9 )
+detailType = "windshield"
+
+[node name="Plates" parent="Car/Car1" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( -41, 3 )
+detailType = "plates"
+
+[node name="Ticket" type="Sprite" parent="Car/Car1"]
+visible = false
+position = Vector2( 19, -7 )
+texture = ExtResource( 4 )
+
+[node name="Car2" type="Sprite" parent="Car"]
+visible = false
+position = Vector2( 0, -15 )
+texture = ExtResource( 7 )
+
+[node name="Windshield" parent="Car/Car2" instance=ExtResource( 3 )]
+position = Vector2( 25, -8 )
+detailType = "windshield"
+
+[node name="Plates" parent="Car/Car2" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( -34, 5 )
+detailType = "plates"
+
+[node name="Ticket" type="Sprite" parent="Car/Car2"]
+visible = false
+position = Vector2( 26, -6 )
+texture = ExtResource( 4 )
+
+[node name="Car3" type="Sprite" parent="Car"]
+visible = false
+position = Vector2( 0, -14 )
+texture = ExtResource( 2 )
+
+[node name="Windshield" parent="Car/Car3" instance=ExtResource( 3 )]
+position = Vector2( 15, -10 )
+detailType = "windshield"
+
+[node name="Plates" parent="Car/Car3" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( -42, 3 )
+detailType = "plates"
+
+[node name="Ticket" type="Sprite" parent="Car/Car3"]
+visible = false
+position = Vector2( 19, -8 )
+texture = ExtResource( 4 )
+
+[node name="Car4" type="Sprite" parent="Car"]
+visible = false
+position = Vector2( 0, -15 )
+texture = ExtResource( 6 )
+
+[node name="Windshield" parent="Car/Car4" instance=ExtResource( 3 )]
+position = Vector2( 15, -10 )
+detailType = "windshield"
+
+[node name="Plates" parent="Car/Car4" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( -40, 2 )
+detailType = "plates"
+
+[node name="Ticket" type="Sprite" parent="Car/Car4"]
+visible = false
+position = Vector2( 19, -8 )
+texture = ExtResource( 4 )
+
+[node name="parkingTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="area_entered" from="ParkingSpaceArea" to="." method="enters_space"]
+[connection signal="timeout" from="parkingTimer" to="." method="car_exits"]
